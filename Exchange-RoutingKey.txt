@@ -12,6 +12,8 @@ Evet, tabii ki. RabbitMQ'daki exchangeleri ve routing key kavramını açıklaya
      - **Fanout Exchange**: Mesajları tüm bağlı kuyruklara gönderir.
      - **Topic Exchange**: Mesajları bir veya daha fazla kuyruğa bir konu (topic) bazında gönderir.
      - **Headers Exchange**: Mesajları başlık (header) bilgilerine göre kuyruklara yönlendirir.
+     #HEADER GÖZ GEZDİR.
+
      - **Default Exchange**: Exchange belirtilmediğinde varsayılan olarak kullanılır ve adı boş bir string olan direkt bir exchange'tir.
 
 3. **Routing Key (Yönlendirme Anahtarı)**:

@@ -1,4 +1,6 @@
 import pika
+import json #json objesi göndermek için
+
 
 connectionParameters=pika.ConnectionParameters('localhost')
 #Pika kütüphanesini kullanarak localde çalışan rabbitmq sunucusuna bağlandım
@@ -21,14 +23,24 @@ channel=connection.channel()
 channel.queue_declare(queue='deneme')
 #burada artık bir tane queue oluşturdum
 
-message="Deneme 1" #örnek mesaj
+with open("veri.json","r",) as file:
+        json_data=json.load(file) #json dosyasını okudum
 
-channel.basic_publish(exchange="",routing_key="deneme",body=message)
+message="Deneme 1" #örnek mesaj
+#!JSON GELECEK    yukarıda verdiğim json'ı gönderdim o yüzden artık burayı kullanmıyorum
+#PARSE EDİP SCRİPT.PY İÇİNDEKİ BİR FONKSİYON.
+
+channel.basic_publish(exchange="",routing_key="deneme",body=json.dumps(json_data),properties=pika.BasicProperties(priority=2))
+#channel.basic_publish(exchange="",routing_key="deneme",body=message,properties=pika.BasicProperties(priority=5))
+
+
+
 #mesajı queueya pushlamak için.
 # exchange parametresi, mesajın iletilme mekanizmasını belirler
 #ve mesajın nasıl işleneceğini kontrol ede
 #burada defaul exchange kullandım o yüzden exchange kısmı boş
-print(f"sent message: {message}")
+print(f"sent message: {json_data}")
+
 
 connection.close()
 
