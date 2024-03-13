@@ -19,8 +19,8 @@ channel=connection.channel()
 #her kanal ayrı bir iletişim yolu sağlar
 #Kanallar mesajlar arasında bağımsızlık sağlar ve
 #aynı bağlantı üzerinde farklı işlemlerin paralel olarak gerçekleştirilmesine olanak tanır
-
-channel.queue_declare(queue='deneme')
+channel.queue_delete(queue='deneme')
+channel.queue_declare(queue='deneme',arguments={'x-max-priority': 5})
 #burada artık bir tane queue oluşturdum
 
 with open("veri.json","r",) as file:
@@ -31,7 +31,7 @@ message="Deneme 1" #örnek mesaj
 #PARSE EDİP SCRİPT.PY İÇİNDEKİ BİR FONKSİYON.
 
 channel.basic_publish(exchange="",routing_key="deneme",body=json.dumps(json_data),properties=pika.BasicProperties(priority=2))
-#channel.basic_publish(exchange="",routing_key="deneme",body=message,properties=pika.BasicProperties(priority=5))
+channel.basic_publish(exchange="",routing_key="deneme",body=json.dumps(json_data),properties=pika.BasicProperties(priority=4))
 
 
 
@@ -39,7 +39,7 @@ channel.basic_publish(exchange="",routing_key="deneme",body=json.dumps(json_data
 # exchange parametresi, mesajın iletilme mekanizmasını belirler
 #ve mesajın nasıl işleneceğini kontrol ede
 #burada defaul exchange kullandım o yüzden exchange kısmı boş
-print(f"sent message: {json_data}")
+print(f"Messages send.")
 
 
 connection.close()
